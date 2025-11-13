@@ -1,13 +1,19 @@
-import { mostrarTareas_funcion } from "../funciones/MenejoTareas"
-export class lisTareas {
+import { getTareas,nuevaTarea } from "../funciones/MenejoTareas"
+import { Tarea } from "./Tarea"
+export class almacenTareas {
+
     public lisTareas:Tarea[]
 
     constructor(){
         this.lisTareas = []
     }
 
-    getTareas(){
-        mostrarTareas_funcion(this)
+    retornarTareas(tareas:lisTareas){
+       return getTareas(tareas)
+    }
+
+    agregarTarea(){
+        this.lisTareas.push()
     }
 
 }
