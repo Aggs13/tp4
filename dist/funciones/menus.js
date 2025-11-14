@@ -32,6 +32,7 @@ function menu_principal() {
             case "3":
                 break;
             case "4":
+                menuBuscTarea();
                 break;
             case "5":
                 arrayTareas = menuElimiarTarea(arrayTareas);
@@ -75,4 +76,15 @@ function menuBuscTarea() {
     console.log("[2]-Titulo");
     console.log("[3]-Vencimiento");
     console.log("[3]-Estado");
+    op = prompt("> ");
+    switch (op) {
+        case "1":
+            let id = prompt("ID: ");
+            console.log((0, MenejoTareas_1.buscTareaId)(parseInt(id), arrayTareas));
+            break;
+        case "2":
+            break;
+        case "3":
+            break;
+    }
 }

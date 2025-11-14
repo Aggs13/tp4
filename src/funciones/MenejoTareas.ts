@@ -29,6 +29,5 @@ export function establecerVencimiento(dias:string,fecha:Date){
     let diasVencimiento:number = parseInt(dias)
     const fechaVencimiento = new Date(fecha.getTime());
     fechaVencimiento.setDate(fechaVencimiento.getDate() + diasVencimiento)
-
     return fechaVencimiento.toLocaleDateString("es-AR");
 }

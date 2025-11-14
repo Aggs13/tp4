@@ -1,5 +1,5 @@
 import { AlmacenTareas, } from "../clases/AlmacenTareas";
-import { getTareas, nuevaTarea,agregarTareaArray,eliminarTarea,establecerVencimiento } from "../funciones/MenejoTareas";
+import { getTareas, nuevaTarea,agregarTareaArray,eliminarTarea,buscTareaId,establecerVencimiento } from "../funciones/MenejoTareas";
 import { Tarea } from "../clases/Tarea";
 // @ts-ignore
 import * as promptSync from "prompt-sync";
@@ -36,6 +36,7 @@ export function menu_principal(){
             break;
 
             case"4":
+                menuBuscTarea()
             break;
 
             case"5":
@@ -93,6 +94,20 @@ function menuBuscTarea(){
     console.log("[2]-Titulo");
     console.log("[3]-Vencimiento");
     console.log("[3]-Estado");
+    op = prompt("> ")
+    switch (op){
+        case"1":
+            let id = prompt("ID: ")
+            console.log(buscTareaId(parseInt(id,),arrayTareas))
+
+        break;
+
+        case"2":
+        break;
+
+        case"3":
+        break;
+    }
 
 }
 
