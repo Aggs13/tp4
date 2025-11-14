@@ -15,9 +15,9 @@ class Tarea {
         this.titulo = titulo ?? "";
         this.descripcion = descripcion ?? "";
         this.estado = estado ?? "";
-        this.creacion = creacion ?? new Date();
+        this.creacion = creacion ?? "";
         this.ultimaEdicion = ultimaEdicion ?? new Date();
-        this.vencimiento = vencimiento ?? new Date();
+        this.vencimiento = vencimiento ?? "";
         this.dificultad = dificultad ?? "";
     }
 }
