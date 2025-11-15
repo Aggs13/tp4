@@ -66,6 +66,9 @@ export function buscTareaDificultar(dificultad:string,tareas:Tarea[]){
 }
 
 
-export function editarTarea(tarea: Tarea, tareas: Tarea[], id: number): Tarea[] {
-    return tareas.map(t => t.id === id ? tarea : t);
+export function editarTarea(tarea:Tarea,tareas:Tarea[],id:number){
+    const index:number = tareas.findIndex(t => t.id == id); 
+    let copiaTareas = [...tareas];
+    copiaTareas[index] = tarea
+    return copiaTareas;
 }

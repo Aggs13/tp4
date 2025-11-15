@@ -60,5 +60,8 @@ function buscTareaDificultar(dificultad, tareas) {
     return tareas.filter(t => t.dificultad == dificultadSelect);
 }
 function editarTarea(tarea, tareas, id) {
-    return tareas.map(t => t.id === id ? tarea : t);
+    const index = tareas.findIndex(t => t.id == id);
+    let copiaTareas = [...tareas];
+    copiaTareas[index] = tarea;
+    return copiaTareas;
 }
