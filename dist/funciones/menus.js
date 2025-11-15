@@ -12,6 +12,7 @@ let arrayTareas = funcionesTarea.list_tareas;
 function menu_principal() {
     let op;
     do {
+        limpiarPantalla();
         console.log("------------------");
         console.log("[1]-Ver tareas");
         console.log("[2]-Nueva tarea");
@@ -21,10 +22,12 @@ function menu_principal() {
         console.log("[0]-Salir");
         console.log("------------------");
         op = prompt("Elige una opcion: ");
-        console.clear();
+        limpiarPantalla();
         switch (op) {
             case "1":
                 console.log((0, MenejoTareas_1.getTareas)(arrayTareas));
+                console.log("Cantidad:", arrayTareas.length);
+                prompt("> [enter]-volver");
                 break;
             case "2":
                 menuNuevaTarea(arrayTareas.length);
@@ -32,10 +35,16 @@ function menu_principal() {
             case "3":
                 break;
             case "4":
+                limpiarPantalla();
                 menuBuscTarea();
+                prompt("> [enter]-volver");
                 break;
             case "5":
+                limpiarPantalla();
                 arrayTareas = menuElimiarTarea(arrayTareas);
+                prompt("> Eliminado!! [enter]-volver");
+                break;
+            default:
                 break;
         }
     } while (op != "0");
@@ -47,13 +56,14 @@ function menuNuevaTarea(id) {
     let desc = prompt("Descripcion: ");
     let creacion = new Date().toLocaleDateString();
     let ultimaEdicion = new Date();
-    let dificultad = prompt("Dificultad: ") || "Facil";
+    // Validar dificultad
+    console.log("[1] Facil [2] Normal [3] Dificil");
+    const opcionDificultad = prompt("Dificultad: ");
+    const dificultad = (0, MenejoTareas_1.validarDificultad)(opcionDificultad) || "Pendiente";
     // Validar estado
-    const estados = ["Pendiente", "En Proceso", "Cancelado", "Terminado"];
-    console.log(estados);
-    let estado = prompt("Estado: ") || "Pendiente";
-    let estadoOpcion = parseInt(estado);
-    estado = estados[estadoOpcion - 1];
+    console.log("[1] Pendiente", "[2] En Proceso", "[3] Cancelado", "[4] Terminado");
+    const opcionEstado = prompt("Estado: ");
+    const estado = (0, MenejoTareas_1.validarEstado)(opcionEstado);
     console.log("En cuantos dias vence? ");
     let dias = prompt("Dias: ") || "10";
     let vencimiento = (0, MenejoTareas_1.establecerVencimiento)(dias, new Date());
@@ -66,7 +76,7 @@ function menuElimiarTarea(listTareas) {
     console.log("Eliminar");
     let id = prompt("Ingrese el ID: ");
     id = parseInt(id);
-    console.clear();
+    limpiarPantalla();
     return (0, MenejoTareas_1.eliminarTarea)(id, listTareas);
 }
 function menuBuscTarea() {
@@ -74,17 +84,31 @@ function menuBuscTarea() {
     console.log("Como quiere buscar la tarea?");
     console.log("[1]-ID");
     console.log("[2]-Titulo");
-    console.log("[3]-Vencimiento");
     console.log("[3]-Estado");
+    console.log("[4]-Dificultad");
     op = prompt("> ");
     switch (op) {
         case "1":
+            limpiarPantalla();
             let id = prompt("ID: ");
             console.log((0, MenejoTareas_1.buscTareaId)(parseInt(id), arrayTareas));
             break;
         case "2":
+            limpiarPantalla();
+            let palabra = prompt("Ingrese el Titulo: ");
+            console.log((0, MenejoTareas_1.buscTareaTitulo)(palabra, arrayTareas));
             break;
         case "3":
+            const estados = ["Pendiente", "En Proceso", "Cancelado", "Terminado"];
+            console.log(estados);
+            let estado = prompt("Estado: ") || "Pendiente";
+            let estadoOpcion = parseInt(estado);
+            estado = estados[estadoOpcion - 1];
+            limpiarPantalla();
+            console.log((0, MenejoTareas_1.buscTareaEstado)(estado, arrayTareas));
             break;
     }
+}
+function limpiarPantalla() {
+    process.stdout.write('\x1Bc');
 }

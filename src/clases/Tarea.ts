@@ -19,4 +19,5 @@ export class Tarea{
         this.vencimiento = vencimiento ?? "" ;
         this.dificultad = dificultad ?? "";
     }
+
 }
