@@ -6,10 +6,10 @@ class Tarea {
     titulo;
     descripcion;
     estado;
+    dificultad;
     creacion;
     ultimaEdicion;
     vencimiento;
-    dificultad;
     constructor(id, titulo, descripcion, estado, creacion, ultimaEdicion, vencimiento, dificultad) {
         this.id = id ?? 0;
         this.titulo = titulo ?? "";

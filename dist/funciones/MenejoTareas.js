@@ -10,11 +10,12 @@ exports.establecerVencimiento = establecerVencimiento;
 exports.buscTareaId = buscTareaId;
 exports.buscTareaTitulo = buscTareaTitulo;
 exports.buscTareaEstado = buscTareaEstado;
+exports.editarTarea = editarTarea;
 const Tarea_1 = require("../clases/Tarea");
 function getTareas(tareas) {
     return tareas.map(t => t);
 }
-function nuevaTarea(id = 0, titulo = "", descripcion = "", estado = "Pendiente", creacion, ultimaEdicion, vencimiento, dificultad = "Facil") {
+function nuevaTarea(id, titulo, descripcion, estado, creacion, ultimaEdicion, vencimiento, dificultad) {
     const tarea = new Tarea_1.Tarea(id, titulo, descripcion, estado, creacion, ultimaEdicion, vencimiento, dificultad);
     return tarea;
 }
@@ -49,4 +50,9 @@ function buscTareaTitulo(palabra, tareas) {
 }
 function buscTareaEstado(estado, tareas) {
     return tareas.filter(t => t.estado == estado);
+}
+function editarTarea(tarea, tareas, id) {
+    const index = tareas.findIndex(t => t.id == id);
+    tareas[index] = tarea;
+    return tareas;
 }

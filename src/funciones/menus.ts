@@ -1,6 +1,6 @@
 import { AlmacenTareas, } from "../clases/AlmacenTareas";
 import { getTareas, nuevaTarea,agregarTareaArray,eliminarTarea,buscTareaId,buscTareaTitulo,
-buscTareaEstado,validarDificultad,validarEstado,establecerVencimiento, } from "../funciones/MenejoTareas";
+buscTareaEstado,validarDificultad,validarEstado,establecerVencimiento,editarTarea } from "../funciones/MenejoTareas";
 import { Tarea } from "../clases/Tarea";
 // @ts-ignore
 import * as promptSync from "prompt-sync";
@@ -32,10 +32,17 @@ export function menu_principal(){
             break;
                 
             case"2":
-                menuNuevaTarea(arrayTareas.length);
+                const id:number = parseInt(crypto.randomUUID().slice(0, 4), 16);
+                menuNuevaTarea(id,false);
             break;
 
             case"3":
+                limpiarPantalla()
+                console.log(getTareas(arrayTareas));
+
+                console.log("Editar");
+                let idEdit = prompt("Ingrese el ID: ");
+                menuNuevaTarea(idEdit,true)
             break;
 
             case"4":
@@ -46,6 +53,7 @@ export function menu_principal(){
 
             case"5":
             limpiarPantalla()
+            console.log(getTareas(arrayTareas));
             arrayTareas = menuElimiarTarea(arrayTareas)
             prompt("> Eliminado!! [enter]-volver");
             break;
@@ -60,48 +68,53 @@ export function menu_principal(){
 
 
 
-export function menuNuevaTarea(id:number){
+export function menuNuevaTarea(id:number,edit:boolean){
     console.clear();
 
-    let newId:number = id;
-    let titulo:string = prompt("Titulo: ") || `Tarea[${id}]`;
-    let desc:string =  prompt("Descripcion: ");
-    let creacion:string =  new Date().toLocaleDateString();
-    let ultimaEdicion:Date =  new Date();
+    const newId:number = id;
+    const titulo:string = prompt("Titulo: ") || `Tarea[${id}]`;
+    const desc:string =  prompt("Descripcion: ");
+    const creacion:string =  new Date().toLocaleDateString();
+    const ultimaEdicion:Date =  new Date();
 
      // Validar dificultad
-    console.log("[1] Facil [2] Normal [3] Dificil")
-    const opcionDificultad:string = prompt("Dificultad: ")
-    const dificultad = validarDificultad(opcionDificultad) || "Pendiente"
+    console.log("[1] Facil [2] Normal [3] Dificil");
+    const opcionDificultad:string = prompt("Dificultad: ");
+    const dificultad = validarDificultad(opcionDificultad) || "Facil";
 
     // Validar estado
     console.log("[1] Pendiente","[2] En Proceso", "[3] Cancelado", "[4] Terminado");
     const opcionEstado = prompt("Estado: ")
-    const estado = validarEstado(opcionEstado)
+    const estado = validarEstado(opcionEstado) || "Pendiente";
 
 
     console.log("En cuantos dias vence? ");
-    let dias:string =  prompt("Dias: ") || "10";
-    let vencimiento:string = establecerVencimiento(dias,new Date())
-    
-    
-    const tarea = nuevaTarea(newId,titulo,desc,estado,creacion,ultimaEdicion,vencimiento,dificultad);
-    const actualizarListTarea = agregarTareaArray(tarea,arrayTareas);
-    arrayTareas = actualizarListTarea;
+    const dias:string =  prompt("Dias: ") || "10";
+    const vencimiento:string = establecerVencimiento(dias,new Date());
+
+    if(edit){
+        // en caso de ser tarea editada
+        const tarea = nuevaTarea(id,titulo,desc,estado,creacion,ultimaEdicion,vencimiento,dificultad);
+        const actualizarListTarea = editarTarea(tarea,arrayTareas,id)
+        arrayTareas = actualizarListTarea;
+        return;
+    }else{
+        const tarea = nuevaTarea(newId,titulo,desc,estado,creacion,ultimaEdicion,vencimiento,dificultad);
+        const actualizarListTarea = agregarTareaArray(tarea,arrayTareas);
+        arrayTareas = actualizarListTarea;
+    }
+
+
+
 }
 
 
-
 function menuElimiarTarea(listTareas:Tarea[]){
-    console.log(getTareas(listTareas));
-    console.log("Eliminar");
-    let id = prompt("Ingrese el ID: ");
+    let id = prompt("ID Eliminar:")
     id = parseInt(id);
     limpiarPantalla()
     return eliminarTarea(id,listTareas);
 }
-
-
 
 
 function menuBuscTarea(){

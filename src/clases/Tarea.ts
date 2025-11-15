@@ -3,10 +3,11 @@ export class Tarea{
     public titulo:string;
     public descripcion:string;
     public estado:string;
+    public dificultad:string;
     public creacion:string;
     public ultimaEdicion:Date;
     public vencimiento:string;
-    public dificultad:string;
+    
 
 
     constructor(id?:number,titulo?: string,descripcion?: string, estado?: string, creacion?: string, ultimaEdicion?: Date,vencimiento?: string,dificultad?: string){

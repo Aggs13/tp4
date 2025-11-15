@@ -5,7 +5,7 @@ export function getTareas(tareas:Tarea[]) {
     return tareas.map(t => t);
 }
 
-export function nuevaTarea(id:number = 0,titulo: string = "",descripcion: string = "", estado: string = "Pendiente", creacion: string, ultimaEdicion: Date, vencimiento: string ,dificultad: string = "Facil"){
+export function nuevaTarea(id:number,titulo: string,descripcion: string, estado: string , creacion: string, ultimaEdicion: Date, vencimiento: string ,dificultad: string){
    const tarea = new Tarea(id,titulo,descripcion,estado,creacion,ultimaEdicion,vencimiento,dificultad);
    return tarea;
 }
@@ -18,7 +18,6 @@ export function eliminarTarea(id:number,tareas:Tarea[]){
 export function agregarTareaArray(newTarea:Tarea,lista:Tarea[]){
     return [...lista, newTarea];
 }
-
 
 export function validarDificultad(dificultadOpcion:string){
 
@@ -56,4 +55,11 @@ export function buscTareaTitulo(palabra:string,tareas:Tarea[]){
 
 export function buscTareaEstado(estado:string,tareas:Tarea[]){
     return tareas.filter(t => t.estado == estado)
+}
+
+
+export function editarTarea(tarea:Tarea,tareas:Tarea[],id:number){
+    const index:number = tareas.findIndex(t => t.id == id);
+    tareas[index] = tarea
+    return tareas;
 }
