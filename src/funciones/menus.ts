@@ -1,6 +1,6 @@
 import { AlmacenTareas, } from "../clases/AlmacenTareas";
 import { getTareas, nuevaTarea,agregarTareaArray,eliminarTarea,buscTareaId,buscTareaTitulo,
-buscTareaEstado,validarDificultad,validarEstado,establecerVencimiento,editarTarea } from "../funciones/MenejoTareas";
+buscTareaEstado,validarDificultad,validarEstado,establecerVencimiento,editarTarea,buscTareaDificultar } from "../funciones/MenejoTareas";
 import { Tarea } from "../clases/Tarea";
 // @ts-ignore
 import * as promptSync from "prompt-sync";
@@ -32,6 +32,7 @@ export function menu_principal(){
             break;
                 
             case"2":
+                limpiarPantalla()
                 const id:number = parseInt(crypto.randomUUID().slice(0, 4), 16);
                 menuNuevaTarea(id,false);
             break;
@@ -39,7 +40,6 @@ export function menu_principal(){
             case"3":
                 limpiarPantalla()
                 console.log(getTareas(arrayTareas));
-
                 console.log("Editar");
                 let idEdit = prompt("Ingrese el ID: ");
                 menuNuevaTarea(idEdit,true)
@@ -52,24 +52,23 @@ export function menu_principal(){
             break;
 
             case"5":
-            limpiarPantalla()
-            console.log(getTareas(arrayTareas));
-            arrayTareas = menuElimiarTarea(arrayTareas)
-            prompt("> Eliminado!! [enter]-volver");
+                limpiarPantalla()
+                console.log(getTareas(arrayTareas));
+                let idEliminar = prompt("ID Eliminar:")
+                idEliminar = parseInt(idEliminar);
+                arrayTareas = eliminarTarea(idEliminar,arrayTareas)
+                prompt("> Eliminado!! [enter]-volver");
             break;
 
             default:
-                
+                limpiarPantalla()
             break;
         }
     } while (op != "0");
 }
 
 
-
-
 export function menuNuevaTarea(id:number,edit:boolean){
-    console.clear();
 
     const newId:number = id;
     const titulo:string = prompt("Titulo: ") || `Tarea[${id}]`;
@@ -95,25 +94,16 @@ export function menuNuevaTarea(id:number,edit:boolean){
     if(edit){
         // en caso de ser tarea editada
         const tarea = nuevaTarea(id,titulo,desc,estado,creacion,ultimaEdicion,vencimiento,dificultad);
-        const actualizarListTarea = editarTarea(tarea,arrayTareas,id)
-        arrayTareas = actualizarListTarea;
-        return;
+        arrayTareas = editarTarea(tarea,arrayTareas,id);
+
     }else{
         const tarea = nuevaTarea(newId,titulo,desc,estado,creacion,ultimaEdicion,vencimiento,dificultad);
-        const actualizarListTarea = agregarTareaArray(tarea,arrayTareas);
-        arrayTareas = actualizarListTarea;
+        arrayTareas = agregarTareaArray(tarea,arrayTareas);
+
     }
 
 
 
-}
-
-
-function menuElimiarTarea(listTareas:Tarea[]){
-    let id = prompt("ID Eliminar:")
-    id = parseInt(id);
-    limpiarPantalla()
-    return eliminarTarea(id,listTareas);
 }
 
 
@@ -142,16 +132,19 @@ function menuBuscTarea(){
 
         case"3":
         
-            const estados = ["Pendiente","En Proceso", "Cancelado", "Terminado"];
-            console.log(estados);
-
-            let estado:string =  prompt("Estado: ") || "Pendiente";
-            let estadoOpcion:number = parseInt(estado) ;
-            estado = estados[estadoOpcion-1];
-
             limpiarPantalla()
+            console.log("[1] Pendiente [2] En Proceso [3] Terminado [4] Cancelado");
+            const estado:string =  prompt("Estado: ") || "1";
             console.log(buscTareaEstado(estado,arrayTareas));
             
+        break;
+
+
+        case"4":
+            limpiarPantalla()
+            console.log("[1] Facil [2] Normal [3] Dificil")
+            const dificultad = prompt("Dificultad: ") || "1"
+            console.log(buscTareaDificultar(dificultad,arrayTareas))
         break;
     }
 

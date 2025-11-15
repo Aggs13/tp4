@@ -22,16 +22,16 @@ export function agregarTareaArray(newTarea:Tarea,lista:Tarea[]){
 export function validarDificultad(dificultadOpcion:string){
 
     const dificultades = ["Facil","Normal","Dificil"];
-    const dificultadSelect:number = parseInt(dificultadOpcion)
-    return dificultades[dificultadSelect-1]
+    const dificultadSelect:number = parseInt(dificultadOpcion);
+    return dificultades[dificultadSelect-1];
 
 }
 
 
 export function validarEstado(estadoOpcion:string){
     const estados = ["Pendiente","En Proceso", "Terminado", "Cancelado"]
-    const estadoSelect = parseInt(estadoOpcion)
-    return estados[estadoSelect-1]
+    const estadoSelect = parseInt(estadoOpcion);
+    return estados[estadoSelect-1];
 }
 
 export function establecerVencimiento(dias:string,fecha:Date){
@@ -54,12 +54,18 @@ export function buscTareaTitulo(palabra:string,tareas:Tarea[]){
 }
 
 export function buscTareaEstado(estado:string,tareas:Tarea[]){
-    return tareas.filter(t => t.estado == estado)
+    const estados = ["Pendiente","En Proceso", "Terminado", "Cancelado"];
+    const estadoSelect:string = estados[parseInt(estado) - 1];
+    return tareas.filter(t => t.estado == estadoSelect);
+}
+
+export function buscTareaDificultar(dificultad:string,tareas:Tarea[]){
+    const dificultades = ["Facil","Normal","Dificil"];
+    const dificultadSelect:string = dificultades[parseInt(dificultad) - 1]
+    return tareas.filter(t => t.dificultad == dificultadSelect)
 }
 
 
-export function editarTarea(tarea:Tarea,tareas:Tarea[],id:number){
-    const index:number = tareas.findIndex(t => t.id == id);
-    tareas[index] = tarea
-    return tareas;
+export function editarTarea(tarea: Tarea, tareas: Tarea[], id: number): Tarea[] {
+    return tareas.map(t => t.id === id ? tarea : t);
 }

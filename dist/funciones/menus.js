@@ -30,6 +30,7 @@ function menu_principal() {
                 prompt("> [enter]-volver");
                 break;
             case "2":
+                limpiarPantalla();
                 const id = parseInt(crypto.randomUUID().slice(0, 4), 16);
                 menuNuevaTarea(id, false);
                 break;
@@ -48,16 +49,18 @@ function menu_principal() {
             case "5":
                 limpiarPantalla();
                 console.log((0, MenejoTareas_1.getTareas)(arrayTareas));
-                arrayTareas = menuElimiarTarea(arrayTareas);
+                let idEliminar = prompt("ID Eliminar:");
+                idEliminar = parseInt(idEliminar);
+                arrayTareas = (0, MenejoTareas_1.eliminarTarea)(idEliminar, arrayTareas);
                 prompt("> Eliminado!! [enter]-volver");
                 break;
             default:
+                limpiarPantalla();
                 break;
         }
     } while (op != "0");
 }
 function menuNuevaTarea(id, edit) {
-    console.clear();
     const newId = id;
     const titulo = prompt("Titulo: ") || `Tarea[${id}]`;
     const desc = prompt("Descripcion: ");
@@ -77,21 +80,12 @@ function menuNuevaTarea(id, edit) {
     if (edit) {
         // en caso de ser tarea editada
         const tarea = (0, MenejoTareas_1.nuevaTarea)(id, titulo, desc, estado, creacion, ultimaEdicion, vencimiento, dificultad);
-        const actualizarListTarea = (0, MenejoTareas_1.editarTarea)(tarea, arrayTareas, id);
-        arrayTareas = actualizarListTarea;
-        return;
+        arrayTareas = (0, MenejoTareas_1.editarTarea)(tarea, arrayTareas, id);
     }
     else {
         const tarea = (0, MenejoTareas_1.nuevaTarea)(newId, titulo, desc, estado, creacion, ultimaEdicion, vencimiento, dificultad);
-        const actualizarListTarea = (0, MenejoTareas_1.agregarTareaArray)(tarea, arrayTareas);
-        arrayTareas = actualizarListTarea;
+        arrayTareas = (0, MenejoTareas_1.agregarTareaArray)(tarea, arrayTareas);
     }
-}
-function menuElimiarTarea(listTareas) {
-    let id = prompt("ID Eliminar:");
-    id = parseInt(id);
-    limpiarPantalla();
-    return (0, MenejoTareas_1.eliminarTarea)(id, listTareas);
 }
 function menuBuscTarea() {
     let op;
@@ -113,13 +107,16 @@ function menuBuscTarea() {
             console.log((0, MenejoTareas_1.buscTareaTitulo)(palabra, arrayTareas));
             break;
         case "3":
-            const estados = ["Pendiente", "En Proceso", "Cancelado", "Terminado"];
-            console.log(estados);
-            let estado = prompt("Estado: ") || "Pendiente";
-            let estadoOpcion = parseInt(estado);
-            estado = estados[estadoOpcion - 1];
             limpiarPantalla();
+            console.log("[1] Pendiente [2] En Proceso [3] Terminado [4] Cancelado");
+            const estado = prompt("Estado: ") || "1";
             console.log((0, MenejoTareas_1.buscTareaEstado)(estado, arrayTareas));
+            break;
+        case "4":
+            limpiarPantalla();
+            console.log("[1] Facil [2] Normal [3] Dificil");
+            const dificultad = prompt("Dificultad: ") || "1";
+            console.log((0, MenejoTareas_1.buscTareaDificultar)(dificultad, arrayTareas));
             break;
     }
 }

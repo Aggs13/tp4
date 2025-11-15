@@ -10,6 +10,7 @@ exports.establecerVencimiento = establecerVencimiento;
 exports.buscTareaId = buscTareaId;
 exports.buscTareaTitulo = buscTareaTitulo;
 exports.buscTareaEstado = buscTareaEstado;
+exports.buscTareaDificultar = buscTareaDificultar;
 exports.editarTarea = editarTarea;
 const Tarea_1 = require("../clases/Tarea");
 function getTareas(tareas) {
@@ -49,10 +50,15 @@ function buscTareaTitulo(palabra, tareas) {
     return tareas.filter(t => t.titulo.toLowerCase().includes(busqueda));
 }
 function buscTareaEstado(estado, tareas) {
-    return tareas.filter(t => t.estado == estado);
+    const estados = ["Pendiente", "En Proceso", "Terminado", "Cancelado"];
+    const estadoSelect = estados[parseInt(estado) - 1];
+    return tareas.filter(t => t.estado == estadoSelect);
+}
+function buscTareaDificultar(dificultad, tareas) {
+    const dificultades = ["Facil", "Normal", "Dificil"];
+    const dificultadSelect = dificultades[parseInt(dificultad) - 1];
+    return tareas.filter(t => t.dificultad == dificultadSelect);
 }
 function editarTarea(tarea, tareas, id) {
-    const index = tareas.findIndex(t => t.id == id);
-    tareas[index] = tarea;
-    return tareas;
+    return tareas.map(t => t.id === id ? tarea : t);
 }
