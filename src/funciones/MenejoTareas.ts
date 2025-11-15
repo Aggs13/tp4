@@ -5,7 +5,7 @@ export function getTareas(tareas:Tarea[]) {
     return tareas.map(t => t);
 }
 
-export function nuevaTarea(id:number,titulo: string,descripcion: string, estado: string , creacion: string, ultimaEdicion: Date, vencimiento: string ,dificultad: string){
+export function nuevaTarea(id:number,titulo: string,descripcion: string, estado: string , creacion: string, ultimaEdicion: string, vencimiento: string ,dificultad: string){
    const tarea = new Tarea(id,titulo,descripcion,estado,creacion,ultimaEdicion,vencimiento,dificultad);
    return tarea;
 }

@@ -5,18 +5,18 @@ export class Tarea{
     public estado:string;
     public dificultad:string;
     public creacion:string;
-    public ultimaEdicion:Date;
+    public ultima_Edicion:string;
     public vencimiento:string;
     
 
 
-    constructor(id?:number,titulo?: string,descripcion?: string, estado?: string, creacion?: string, ultimaEdicion?: Date,vencimiento?: string,dificultad?: string){
+    constructor(id?:number,titulo?: string,descripcion?: string, estado?: string, creacion?: string, ultima_Edicion?: string,vencimiento?: string,dificultad?: string){
         this.id = id ?? 0;
         this.titulo = titulo ?? "";
         this.descripcion = descripcion ?? "";
         this.estado = estado ?? "";
         this.creacion = creacion ?? "";
-        this.ultimaEdicion = ultimaEdicion ?? new Date();
+        this.ultima_Edicion = ultima_Edicion ?? "";
         this.vencimiento = vencimiento ?? "" ;
         this.dificultad = dificultad ?? "";
     }

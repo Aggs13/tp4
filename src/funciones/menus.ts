@@ -74,7 +74,7 @@ export function menuNuevaTarea(id:number,edit:boolean){
     const titulo:string = prompt("Titulo: ") || `Tarea[${id}]`;
     const desc:string =  prompt("Descripcion: ");
     const creacion:string =  new Date().toLocaleDateString();
-    const ultimaEdicion:Date =  new Date();
+    const ultimaEdicion:string =  ""
 
      // Validar dificultad
     console.log("[1] Facil [2] Normal [3] Dificil");
@@ -86,14 +86,21 @@ export function menuNuevaTarea(id:number,edit:boolean){
     const opcionEstado = prompt("Estado: ")
     const estado = validarEstado(opcionEstado) || "Pendiente";
 
-
+    // Validar Vencimiento
     console.log("En cuantos dias vence? ");
     const dias:string =  prompt("Dias: ") || "10";
     const vencimiento:string = establecerVencimiento(dias,new Date());
 
     if(edit){
-        // en caso de ser tarea editada
-        const tarea = nuevaTarea(id,titulo,desc,estado,creacion,ultimaEdicion,vencimiento,dificultad);
+        const tareaEdit = arrayTareas.find(t => t.id = id)
+        if (!tareaEdit) {
+            console.log("No existe una tarea con ese ID");
+            return
+        }
+        const fechaCreacion:string  = tareaEdit.creacion
+
+        const ultimaEdicion:string = creacion;
+        const tarea = nuevaTarea(id,titulo,desc,estado,fechaCreacion,ultimaEdicion,vencimiento,dificultad);
         arrayTareas = editarTarea(tarea,arrayTareas,id);
 
     }else{

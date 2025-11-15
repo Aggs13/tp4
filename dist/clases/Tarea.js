@@ -8,15 +8,15 @@ class Tarea {
     estado;
     dificultad;
     creacion;
-    ultimaEdicion;
+    ultima_Edicion;
     vencimiento;
-    constructor(id, titulo, descripcion, estado, creacion, ultimaEdicion, vencimiento, dificultad) {
+    constructor(id, titulo, descripcion, estado, creacion, ultima_Edicion, vencimiento, dificultad) {
         this.id = id ?? 0;
         this.titulo = titulo ?? "";
         this.descripcion = descripcion ?? "";
         this.estado = estado ?? "";
         this.creacion = creacion ?? "";
-        this.ultimaEdicion = ultimaEdicion ?? new Date();
+        this.ultima_Edicion = ultima_Edicion ?? "";
         this.vencimiento = vencimiento ?? "";
         this.dificultad = dificultad ?? "";
     }

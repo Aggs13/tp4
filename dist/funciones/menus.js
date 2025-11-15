@@ -65,7 +65,7 @@ function menuNuevaTarea(id, edit) {
     const titulo = prompt("Titulo: ") || `Tarea[${id}]`;
     const desc = prompt("Descripcion: ");
     const creacion = new Date().toLocaleDateString();
-    const ultimaEdicion = new Date();
+    const ultimaEdicion = "";
     // Validar dificultad
     console.log("[1] Facil [2] Normal [3] Dificil");
     const opcionDificultad = prompt("Dificultad: ");
@@ -74,12 +74,19 @@ function menuNuevaTarea(id, edit) {
     console.log("[1] Pendiente", "[2] En Proceso", "[3] Cancelado", "[4] Terminado");
     const opcionEstado = prompt("Estado: ");
     const estado = (0, MenejoTareas_1.validarEstado)(opcionEstado) || "Pendiente";
+    // Validar Vencimiento
     console.log("En cuantos dias vence? ");
     const dias = prompt("Dias: ") || "10";
     const vencimiento = (0, MenejoTareas_1.establecerVencimiento)(dias, new Date());
     if (edit) {
-        // en caso de ser tarea editada
-        const tarea = (0, MenejoTareas_1.nuevaTarea)(id, titulo, desc, estado, creacion, ultimaEdicion, vencimiento, dificultad);
+        const tareaEdit = arrayTareas.find(t => t.id = id);
+        if (!tareaEdit) {
+            console.log("No existe una tarea con ese ID");
+            return;
+        }
+        const fechaCreacion = tareaEdit.creacion;
+        const ultimaEdicion = creacion;
+        const tarea = (0, MenejoTareas_1.nuevaTarea)(id, titulo, desc, estado, fechaCreacion, ultimaEdicion, vencimiento, dificultad);
         arrayTareas = (0, MenejoTareas_1.editarTarea)(tarea, arrayTareas, id);
     }
     else {
